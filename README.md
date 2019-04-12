@@ -14,4 +14,5 @@ Compile
 Run
 ===
 ./compare
+
 Read /tmp/file1.txt and /tmp/file2.txt
