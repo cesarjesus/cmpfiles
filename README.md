@@ -9,10 +9,8 @@ Dependencies
 Compile
 =======
 
-* g++ -Wall -o compare main.cpp -lssl -lcrypto
+`$ g++ -Wall -o compare main.cpp -lssl -lcrypto`
 
 Run
 ===
-./compare
-
-Read /tmp/file1.txt and /tmp/file2.txt
+`$ ./compare <file1> <file2>`

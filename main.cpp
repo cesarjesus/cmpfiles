@@ -41,10 +41,17 @@ void print_sha256(string &file, unsigned char hash[SHA256_DIGEST_LENGTH])
 
 int main(int argc, char** argv)
 {
+    if (argc < 3)
+    {
+        cout << "Usage:" << endl;
+        cout << "\t./compare <file1> <file2>" << endl;
+        return 1;
+    }
+
   cout << "Starting compare files..." << endl;
 
-  string file1 = "/tmp/file1.txt";
-  string file2 = "/tmp/file2.txt";
+  string file1 = argv[1];
+  string file2 = argv[2];
 
   cout << "Comparing: [" << file1 << "] with [" << file2 << "]" << endl;
   ifstream f1, f2;
