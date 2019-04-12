@@ -25,6 +25,7 @@ void calculate_sha256(ifstream &file, unsigned char hash[SHA256_DIGEST_LENGTH])
   SHA256_Init(&sha256_context);
   SHA256_Update(&sha256_context, buffer, length);
   SHA256_Final(hash, &sha256_context);
+  delete [] buffer;
 }
 
 void print_sha256(string &file, unsigned char hash[SHA256_DIGEST_LENGTH])
