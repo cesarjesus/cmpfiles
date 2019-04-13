@@ -39,6 +39,14 @@ void print_sha256(string &file, unsigned char hash[SHA256_DIGEST_LENGTH])
     cout << file << ": " << ss.str() << endl;
 }
 
+bool files_has_same_sha256(
+    unsigned char hash1[SHA256_DIGEST_LENGTH],
+    unsigned char hash2[SHA256_DIGEST_LENGTH]
+)
+{
+    return (memcmp(hash1, hash2, SHA256_DIGEST_LENGTH) == 0);
+}
+
 int main(int argc, char** argv)
 {
     if (argc < 3)
@@ -66,6 +74,10 @@ int main(int argc, char** argv)
         calculate_sha256(f2, hash_f2);
         print_sha256(file1, hash_f1);
         print_sha256(file2, hash_f2);
+        if (files_has_same_sha256(hash_f1, hash_f2))
+        {
+            cout << "Files are same based on the SHA256 sum." << endl;
+        }
     }
 
     if (f1.is_open())
