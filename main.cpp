@@ -11,19 +11,30 @@
 
 using namespace std;
 
-void calculate_sha256(ifstream &file, unsigned char hash[SHA256_DIGEST_LENGTH])
+/**
+* &file, reference to the file stream to read
+* hash, the calculated hash for the file.
+* READ_BUFFER_SIZE, the block size at which the file will be read in bytes, default 4Mb.
+*/
+void calculate_sha256(ifstream &file, unsigned char hash[SHA256_DIGEST_LENGTH], unsigned long READ_BUFFER_SIZE = 4194304)
 {
     file.seekg(0, file.end);
-    long length = file.tellg();
+    unsigned long length = file.tellg();
     file.seekg(0, file.beg);
 
-    char* buffer = new char[length];
-    cout << "Will be read " << length << " elements." << endl;
-    file.read(buffer, length);
+    cout << "Bytes to be read " << length << endl;
+    char* buffer = new char[READ_BUFFER_SIZE];
+    unsigned long counter = 0;
 
     SHA256_CTX sha256_context;
     SHA256_Init(&sha256_context);
-    SHA256_Update(&sha256_context, buffer, length);
+    do {
+        file.read(buffer, READ_BUFFER_SIZE);
+        counter += file.gcount();
+        cout << counter << " bytes read." << endl;
+        SHA256_Update(&sha256_context, buffer, file.gcount());
+    } while (counter < length);
+    cout << "Total bytes read " << counter << endl;
     SHA256_Final(hash, &sha256_context);
     delete [] buffer;
 }
@@ -77,6 +88,10 @@ int main(int argc, char** argv)
         if (files_has_same_sha256(hash_f1, hash_f2))
         {
             cout << "Files are same based on the SHA256 sum." << endl;
+        }
+        else
+        {
+            cout << "Files are different based on the SHA256 sum." << endl;
         }
     }
 
