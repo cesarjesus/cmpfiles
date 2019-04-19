@@ -1,6 +1,6 @@
 CFLAGS = -Wall -g $(shell pkg-config --cflags libssl libcrypto)
 CXXLIBS = $(shell pkg-config --libs libssl libcrypto)
-SRCS = main.cpp
+SRCS = main.cpp sha256sum.cpp
 INCLUDES =
 
 OBJS = $(SRCS:.c=.o)
