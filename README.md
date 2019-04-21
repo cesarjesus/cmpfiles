@@ -1,4 +1,7 @@
-** Playing with files and file attributes **
+cmpfiles
+========
+
+Utility to compare files based on SHA256 sum.
 
 Dependencies
 ============
@@ -9,7 +12,7 @@ Dependencies
 Compile
 =======
 
-`$ g++ -Wall -o compare main.cpp -lssl -lcrypto`
+`$ make`
 
 Run
 ===
