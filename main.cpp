@@ -1,36 +1,13 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <sstream>
-#include <iomanip>
 
 #include <stdio.h>
-#include <string.h>
-
-#include <openssl/sha.h>
 
 #include "sha256sum.h"
+#include "utils.h"
 
 using namespace std;
-
-void print_sha256(string &file, unsigned char hash[SHA256_DIGEST_LENGTH])
-{
-    stringstream ss;
-    for(int i = 0; i < SHA256_DIGEST_LENGTH; i++)
-    {
-        ss << hex << setw(2) << setfill('0') << (int)hash[i];
-    }
-
-    cout << file << ": " << ss.str() << endl;
-}
-
-bool files_has_same_sha256(
-    unsigned char hash1[SHA256_DIGEST_LENGTH],
-    unsigned char hash2[SHA256_DIGEST_LENGTH]
-)
-{
-    return (memcmp(hash1, hash2, SHA256_DIGEST_LENGTH) == 0);
-}
 
 int main(int argc, char** argv)
 {
@@ -58,9 +35,9 @@ int main(int argc, char** argv)
         SHA256Sum hashSum;
         hashSum.GetSHA256(f1, hash_f1);
         hashSum.GetSHA256(f2, hash_f2);
-        print_sha256(file1, hash_f1);
-        print_sha256(file2, hash_f2);
-        if (files_has_same_sha256(hash_f1, hash_f2))
+        cout << file1 << ":" << Utils::getPrintableHash(hash_f1) << endl;
+        cout << file2 << ":" << Utils::getPrintableHash(hash_f2) << endl;
+        if (Utils::equalHash(hash_f1, hash_f2))
         {
             cout << "Files are same based on the SHA256 sum." << endl;
         }
