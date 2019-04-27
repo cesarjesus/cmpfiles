@@ -20,8 +20,9 @@ void SHA256Sum::GetSHA256(
     file.seekg(0, file.end);
     unsigned long length = file.tellg();
     file.seekg(0, file.beg);
-
+#ifdef DEBUG
     cout << "Bytes to be read " << length << endl;
+#endif
     char* buffer = new char[READ_BUFFER_SIZE];
     unsigned long counter = 0;
 
@@ -30,10 +31,14 @@ void SHA256Sum::GetSHA256(
     do {
         file.read(buffer, READ_BUFFER_SIZE);
         counter += file.gcount();
+#ifdef DEBUG
         cout << counter << " bytes read." << endl;
+#endif
         SHA256_Update(&sha256_context, buffer, file.gcount());
     } while (counter < length);
+#ifdef DEBUG
     cout << "Total bytes read " << counter << endl;
+#endif
     SHA256_Final(hash, &sha256_context);
     delete [] buffer;
 }
