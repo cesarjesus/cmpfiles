@@ -9,21 +9,29 @@
 
 using namespace std;
 
+void usage()
+{
+    cout << "Usage:" << endl;
+    cout << "\t./compare <file1> <file2>" << endl;
+}
+
 int main(int argc, char** argv)
 {
     if (argc < 3)
     {
-        cout << "Usage:" << endl;
-        cout << "\t./compare <file1> <file2>" << endl;
-        return 1;
+        usage();
+        return 0;
     }
 
+#ifdef DEBUG
     cout << "Starting compare files..." << endl;
+#endif
 
     string file1 = argv[1];
     string file2 = argv[2];
-
+#ifdef DEBUG
     cout << "Comparing: [" << file1 << "] with [" << file2 << "]" << endl;
+#endif
     ifstream f1, f2;
     f1.open(file1.c_str());
     f2.open(file2.c_str());
@@ -56,8 +64,9 @@ int main(int argc, char** argv)
     {
         f2.close();
     }
-
+#ifdef DEBUG
     cout << "... shutting down." << endl;
+#endif
 
     return 0;
 }
