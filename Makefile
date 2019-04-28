@@ -4,16 +4,22 @@ SRCS = main.cpp sha256sum.cpp utils.cpp
 INCLUDES =
 
 OBJS = $(SRCS:.c=.o)
+DUPS_OBJS = checkdups.o utils.o
 
 MAIN = compare
 
+DUPS = checkdups
+
 .PHONY: depend clean
 
-all: $(MAIN)
+all: $(MAIN) $(DUPS)
 	@echo Project has been compiled
 
 debug: CXXLIBS += -D DEBUG -g
 debug: $(MAIN)
+
+$(DUPS): $(DUPS_OBJS)
+	$(CXX) $(CFLAGS) $(INCLUDES) -o $(DUPS) $(DUPS_OBJS) $(CXXLIBS)
 
 $(MAIN): $(OBJS)
 	$(CXX) $(CFLAGS) $(INCLUDES) -o $(MAIN) $(OBJS) $(CXXLIBS)
@@ -22,7 +28,7 @@ $(MAIN): $(OBJS)
 	$(CXX) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	$(RM) *.o *~ $(MAIN)
+	$(RM) *.o *~ $(MAIN) $(DUPS)
 
 depend: $(SRCS)
 	makedepend $(INCLUDES) $^
