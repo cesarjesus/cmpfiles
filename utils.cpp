@@ -35,9 +35,17 @@ bool Utils::hasPermissions(const string &path)
     struct stat buffer;
     if (0 == stat(path.c_str(), &buffer))
     {
-        // TODO: its not enough, we should check and compare with
-        // user id?
-        return buffer.st_mode & S_IRUSR;
+        uid_t uid = getuid();
+        gid_t gid = getgid();
+        // check if the current user has read permissions as the owner
+        if ((uid == buffer.st_uid && (buffer.st_mode & S_IRWXU))
+            // check if the current user has read permissions as part of group
+            || (gid == buffer.st_gid && (buffer.st_mode & S_IRWXG))
+            // check if there are read permissions as part of others
+            || (buffer.st_mode & S_IRWXO))
+        {
+            return true;
+        }
     }
 
     return false;

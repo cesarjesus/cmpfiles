@@ -4,7 +4,7 @@ SRCS = main.cpp sha256sum.cpp utils.cpp
 INCLUDES =
 
 OBJS = $(SRCS:.c=.o)
-DUPS_OBJS = checkdups.o utils.o
+DUPS_OBJS = checkdups.o utils.o walk_function.o walk_dups_function.o walk_directory.o
 
 MAIN = compare
 
